@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>方寧含金快報</title>
+<script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<style>
+:root{
+  --bg:#f4f1ec; --card:#fff; --ink:#22201d; --muted:#7a736b; --line:#e3ddd4;
+  --accent:#06c755; --danger:#c0392b;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;font-size:16px;line-height:1.5;padding-bottom:110px}
+header{padding:20px 16px 4px}
+header h1{margin:0;font-size:22px;letter-spacing:.5px}
+header p{margin:4px 0 0;color:var(--muted);font-size:14px}
+.status{margin:10px 16px 0;padding:10px 12px;border-radius:10px;font-size:14px;background:#fff;border:1px solid var(--line);word-break:break-all}
+.status.ok{border-color:#bfe8cf;background:#effaf3}
+.status.warn{border-color:#f1d9a6;background:#fff8e8}
+.status.err{border-color:#f0c2bd;background:#fdf0ee}
+section{margin:20px 16px 0}
+h2{font-size:16px;margin:0 0 8px}
+h2 small{font-weight:400;color:var(--muted);font-size:13px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+label{display:block;font-size:13px;color:var(--muted);margin:12px 0 4px}
+.panel > label:first-of-type{margin-top:8px}
+input[type=text],input[type=url],textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fff;color:var(--ink)}
+input:focus,textarea:focus{outline:2px solid #b9d9c6;border-color:#8cc5a3}
+textarea{min-height:100px;resize:vertical}
+textarea.short{min-height:64px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.panel-head strong{font-size:15px}
+.tools{display:flex;gap:6px}
+.icon-btn{border:1px solid var(--line);background:#fff;border-radius:8px;padding:4px 10px;font-size:13px;color:var(--ink);cursor:pointer}
+.icon-btn:disabled{opacity:.35}
+.icon-btn.danger{color:var(--danger)}
+.swatches{display:flex;gap:10px;flex-wrap:wrap}
+.swatch{width:32px;height:32px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px var(--line);cursor:pointer;padding:0}
+.swatch.sel{box-shadow:0 0 0 2px var(--ink)}
+.add-btn{width:100%;padding:12px;border:1.5px dashed #c9c0b3;border-radius:12px;background:transparent;font:inherit;color:var(--muted);cursor:pointer}
+.add-btn:disabled{opacity:.4}
+.toggle{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--ink);margin:0 !important}
+.toggle input{width:20px;height:20px}
+.hint{font-size:13px;color:var(--muted);margin:8px 0 0}
+.preview-wrap{background:#8fb0db;border-radius:14px;padding:14px;overflow-x:auto;display:flex;gap:10px;scroll-snap-type:x mandatory;align-items:stretch}
+.bubble{flex:0 0 250px;background:#fff;border-radius:16px;overflow:hidden;scroll-snap-align:start;display:flex;flex-direction:column}
+.bubble img{width:100%;aspect-ratio:20/13;object-fit:cover;display:block;background:#d9d4cc}
+.b-body{padding:14px;flex:1}
+.b-title{font-weight:700;font-size:17px;line-height:1.35;margin:0 0 8px;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-wrap}
+.b-sum{font-size:13px;color:#555;margin:0;display:-webkit-box;-webkit-line-clamp:8;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-wrap}
+.b-foot{padding:0 14px 14px}
+.b-btn{display:block;text-align:center;color:#fff;border-radius:8px;padding:9px;font-size:14px;font-weight:700}
+.b-profile{background:#f7f3ee}
+.b-kicker{font-size:12px;color:#8a8076;margin:0}
+.b-name{font-size:22px;font-weight:700;margin:8px 0 2px}
+.b-role{font-size:13px;color:#6b5b53;margin:0}
+.b-note{font-size:13px;color:#555;margin:14px 0 0;white-space:pre-wrap}
+.errors{color:var(--danger);font-size:14px;margin:10px 0 0;padding-left:20px}
+.bar{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(244,241,236,.96);border-top:1px solid var(--line);display:flex;gap:8px;backdrop-filter:blur(6px)}
+.primary{flex:1;padding:14px;border:0;border-radius:12px;background:var(--accent);color:#fff;font:inherit;font-weight:700;font-size:17px;cursor:pointer}
+.primary:disabled{opacity:.45}
+.secondary{padding:14px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;font:inherit;font-size:14px;cursor:pointer;color:var(--ink)}
+.toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:#22201d;color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90%;text-align:center}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>方寧含金快報</h1>
+  <p>新聞卡片產生器：編好卡片，一鍵分享給 LINE 好友與群組</p>
+</header>
+<div id="status" class="status">正在連線 LINE…</div>
+
+<section>
+  <h2>通知文字</h2>
+  <div class="panel">
+    <label for="altText">對方手機通知與聊天列表上顯示的文字</label>
+    <input type="text" id="altText" maxlength="400" placeholder="例如：今日財經重點 3 則">
+  </div>
+</section>
+
+<section>
+  <h2>新聞卡片 <small id="cardCount"></small></h2>
+  <div id="cards"></div>
+  <button type="button" class="add-btn" id="addCard">＋ 新增一張卡片</button>
+  <p class="hint">圖片需為 https 開頭的 JPG／PNG 網址。建議用自己的圖或可商用圖庫，摘要用自己的話寫，再用按鈕連回原始報導。</p>
+</section>
+
+<section>
+  <h2>名片卡</h2>
+  <div class="panel">
+    <label class="toggle"><input type="checkbox" id="pEnabled"> 在最後附上一張我的名片</label>
+    <div id="pFields">
+      <label for="pName">姓名</label>
+      <input type="text" id="pName" maxlength="20">
+      <label for="pTitle">職稱（選填）</label>
+      <input type="text" id="pTitle" maxlength="40">
+      <label for="pNote">一句話（選填）</label>
+      <textarea id="pNote" class="short" maxlength="120"></textarea>
+      <label for="pBtn">按鈕文字（選填）</label>
+      <input type="text" id="pBtn" maxlength="20">
+      <label for="pUrl">按鈕連結（選填，可填 https 網址或 tel:0912345678）</label>
+      <input type="url" id="pUrl" placeholder="https://line.me/ti/p/~你的LINE ID">
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>預覽 <small>左右滑動</small></h2>
+  <div id="preview" class="preview-wrap"></div>
+  <ul id="errors" class="errors"></ul>
+</section>
+
+<div class="bar">
+  <button type="button" class="secondary" id="copyJson">複製 JSON</button>
+  <button type="button" class="primary" id="share" disabled>分享到 LINE</button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const LIFF_ID = "2011917576-eDT2NQZz";
+const LIFF_URL = "https://liff.line.me/" + LIFF_ID;
+const STORE_KEY = "fangning-news-cards-v1";
+const COLORS = ["#6B5B53", "#1F5A96", "#2E6B4F", "#8C2F39", "#B07A1F", "#3D3D3D"];
+const MAX_CARDS = 10;
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+const t = s => String(s ?? "").trim();
+const isHttps = u => /^https:\/\/\S+$/i.test(t(u));
+const isContact = u => isHttps(u) || /^tel:[0-9+\-]+$/i.test(t(u));
+
+const blankCard = color => ({ title: "", summary: "", image: "", link: "", button: "閱讀全文", color: color || COLORS[0] });
+
+function load() {
+  try { const s = localStorage.getItem(STORE_KEY); return s ? JSON.parse(s) : null; } catch (e) { return null; }
+}
+function save() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
+}
+
+const defaults = {
+  altText: "今日新聞重點",
+  cards: [{
+    title: "範例標題：流感重症創新高，這 3 類族群要特別注意",
+    summary: "在這裡用自己的話寫 2～3 句重點摘要，並把原始報導的網址填在下方「原文連結」。",
+    image: "", link: "", button: "看完整報導", color: COLORS[0]
+  }],
+  profile: { enabled: false, name: "楊方寧", title: "", note: "有任何保障或理財問題，歡迎直接回覆我。", btn: "加我 LINE 聊聊", url: "" }
+};
+let state = load() || JSON.parse(JSON.stringify(defaults));
+if (!state.profile) state.profile = { ...defaults.profile };
+if (!Array.isArray(state.cards) || !state.cards.length) state.cards = [blankCard()];
+
+let liffReady = false;
+let canShare = false;
+
+/* ---------- 編輯區 ---------- */
+function cardPanel(c, i) {
+  const n = state.cards.length;
+  return `<div class="panel" data-i="${i}">
+    <div class="panel-head"><strong>第 ${i + 1} 張</strong>
+      <div class="tools">
+        <button type="button" class="icon-btn" data-act="up" ${i === 0 ? "disabled" : ""} aria-label="上移">↑</button>
+        <button type="button" class="icon-btn" data-act="down" ${i === n - 1 ? "disabled" : ""} aria-label="下移">↓</button>
+        <button type="button" class="icon-btn danger" data-act="del" ${n === 1 ? "disabled" : ""}>刪除</button>
+      </div>
+    </div>
+    <label>標題</label>
+    <textarea class="short" data-k="title" maxlength="80">${esc(c.title)}</textarea>
+    <label>重點摘要（選填）</label>
+    <textarea data-k="summary" maxlength="300">${esc(c.summary)}</textarea>
+    <label>圖片網址（選填）</label>
+    <input type="url" data-k="image" value="${esc(c.image)}" placeholder="https://…/photo.jpg">
+    <label>原文連結（選填，沒填就不顯示按鈕）</label>
+    <input type="url" data-k="link" value="${esc(c.link)}" placeholder="https://…">
+    <label>按鈕文字</label>
+    <input type="text" data-k="button" value="${esc(c.button)}" maxlength="20">
+    <label>主題色</label>
+    <div class="swatches">${COLORS.map(col =>
+      `<button type="button" class="swatch ${c.color === col ? "sel" : ""}" style="background:${col}" data-color="${col}" aria-label="顏色 ${col}"></button>`).join("")}
+    </div>
+  </div>`;
+}
+
+function renderCards() {
+  $("#cards").innerHTML = state.cards.map(cardPanel).join("");
+  $("#addCard").disabled = state.cards.length >= MAX_CARDS;
+  $("#cardCount").textContent = `（${state.cards.length}／${MAX_CARDS}）`;
+  renderPreview();
+}
+
+$("#cards").addEventListener("input", e => {
+  const k = e.target.dataset.k;
+  if (!k) return;
+  const i = +e.target.closest(".panel").dataset.i;
+  state.cards[i][k] = e.target.value;
+  save();
+  renderPreview();
+});
+
+$("#cards").addEventListener("click", e => {
+  const btn = e.target.closest("button");
+  if (!btn || btn.disabled) return;
+  const i = +btn.closest(".panel").dataset.i;
+  const cards = state.cards;
+  if (btn.dataset.color) cards[i].color = btn.dataset.color;
+  else if (btn.dataset.act === "up" && i > 0) [cards[i - 1], cards[i]] = [cards[i], cards[i - 1]];
+  else if (btn.dataset.act === "down" && i < cards.length - 1) [cards[i + 1], cards[i]] = [cards[i], cards[i + 1]];
+  else if (btn.dataset.act === "del" && cards.length > 1) cards.splice(i, 1);
+  else return;
+  save();
+  renderCards();
+});
+
+$("#addCard").addEventListener("click", () => {
+  if (state.cards.length >= MAX_CARDS) return;
+  const last = state.cards[state.cards.length - 1];
+  state.cards.push(blankCard(last && last.color));
+  save();
+  renderCards();
+  const panels = document.querySelectorAll("#cards .panel");
+  panels[panels.length - 1].scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+const altEl = $("#altText");
+altEl.value = state.altText || "";
+altEl.addEventListener("input", () => { state.altText = altEl.value; save(); renderPreview(); });
+
+const pMap = { pName: "name", pTitle: "title", pNote: "note", pBtn: "btn", pUrl: "url" };
+for (const [id, k] of Object.entries(pMap)) {
+  const el = $("#" + id);
+  el.value = state.profile[k] || "";
+  el.addEventListener("input", () => { state.profile[k] = el.value; save(); renderPreview(); });
+}
+const pEn = $("#pEnabled");
+pEn.checked = !!state.profile.enabled;
+$("#pFields").hidden = !pEn.checked;
+pEn.addEventListener("change", () => {
+  state.profile.enabled = pEn.checked;
+  $("#pFields").hidden = !pEn.checked;
+  save();
+  renderPreview();
+});
+
+/* ---------- 檢查 ---------- */
+function validate() {
+  const errs = [];
+  if (!t(state.altText)) errs.push("請填寫通知文字");
+  state.cards.forEach((c, i) => {
+    const n = `第 ${i + 1} 張`;
+    if (!t(c.title)) errs.push(`${n}：標題不能空白`);
+    if (t(c.image) && !isHttps(c.image)) errs.push(`${n}：圖片網址要以 https:// 開頭`);
+    if (t(c.link) && !isHttps(c.link)) errs.push(`${n}：原文連結要以 https:// 開頭`);
+    if (t(c.link) && !t(c.button)) errs.push(`${n}：有連結時，按鈕文字不能空白`);
+  });
+  const p = state.profile;
+  if (p.enabled) {
+    if (!t(p.name)) errs.push("名片卡：姓名不能空白");
+    if (t(p.url) && !isContact(p.url)) errs.push("名片卡：按鈕連結要以 https:// 或 tel: 開頭");
+    if (t(p.url) && !t(p.btn)) errs.push("名片卡：有連結時，按鈕文字不能空白");
+  }
+  return errs;
+}
+
+/* ---------- 預覽 ---------- */
+function previewCard(c) {
+  const img = isHttps(c.image) ? `<img src="${esc(t(c.image))}" alt="" onerror="this.style.opacity='.25'">` : "";
+  const sum = t(c.summary) ? `<p class="b-sum">${esc(t(c.summary))}</p>` : "";
+  const foot = t(c.link) ? `<div class="b-foot"><span class="b-btn" style="background:${c.color}">${esc(t(c.button))}</span></div>` : "";
+  return `<div class="bubble">${img}<div class="b-body"><p class="b-title" style="color:${c.color}">${esc(t(c.title)) || "（尚未填標題）"}</p>${sum}</div>${foot}</div>`;
+}
+function previewProfile(p) {
+  const foot = t(p.url) ? `<div class="b-foot"><span class="b-btn" style="background:#6B5B53">${esc(t(p.btn))}</span></div>` : "";
+  return `<div class="bubble b-profile"><div class="b-body">
+      <p class="b-kicker">為您整理今日重點</p>
+      <p class="b-name">${esc(t(p.name)) || "（姓名）"}</p>
+      ${t(p.title) ? `<p class="b-role">${esc(t(p.title))}</p>` : ""}
+      ${t(p.note) ? `<p class="b-note">${esc(t(p.note))}</p>` : ""}
+    </div>${foot}</div>`;
+}
+function renderPreview() {
+  let html = state.cards.map(previewCard).join("");
+  if (state.profile.enabled) html += previewProfile(state.profile);
+  $("#preview").innerHTML = html;
+  const errs = validate();
+  $("#errors").innerHTML = errs.map(e => `<li>${esc(e)}</li>`).join("");
+  $("#share").disabled = errs.length > 0 || !liffReady;
+}
+
+/* ---------- 組 Flex Message ---------- */
+function flexCard(c) {
+  const b = { type: "bubble", size: "mega" };
+  const link = t(c.link);
+  if (t(c.image)) {
+    b.hero = { type: "image", url: t(c.image), size: "full", aspectRatio: "20:13", aspectMode: "cover" };
+    if (link) b.hero.action = { type: "uri", label: "open", uri: link };
+  }
+  const body = [{ type: "text", text: t(c.title), weight: "bold", size: "lg", wrap: true, maxLines: 4, color: c.color }];
+  if (t(c.summary)) body.push({ type: "text", text: t(c.summary), size: "sm", wrap: true, maxLines: 8, color: "#555555", margin: "md" });
+  b.body = { type: "box", layout: "vertical", contents: body };
+  if (link) {
+    b.footer = { type: "box", layout: "vertical", contents: [
+      { type: "button", style: "primary", color: c.color, height: "sm", action: { type: "uri", label: t(c.button), uri: link } }
+    ] };
+  }
+  return b;
+}
+function flexProfile(p) {
+  const contents = [
+    { type: "text", text: "為您整理今日重點", size: "xs", color: "#8A8076" },
+    { type: "text", text: t(p.name), weight: "bold", size: "xxl", margin: "md", color: "#22201D" }
+  ];
+  if (t(p.title)) contents.push({ type: "text", text: t(p.title), size: "sm", color: "#6B5B53", wrap: true });
+  if (t(p.note)) contents.push({ type: "text", text: t(p.note), size: "sm", color: "#555555", wrap: true, margin: "lg" });
+  const b = { type: "bubble", size: "mega",
+    body: { type: "box", layout: "vertical", backgroundColor: "#F7F3EE", paddingAll: "20px", contents } };
+  if (t(p.url)) {
+    b.footer = { type: "box", layout: "vertical", backgroundColor: "#F7F3EE", contents: [
+      { type: "button", style: "primary", color: "#6B5B53", height: "sm", action: { type: "uri", label: t(p.btn), uri: t(p.url) } }
+    ] };
+  }
+  return b;
+}
+function buildMessage() {
+  const bubbles = state.cards.map(flexCard);
+  if (state.profile.enabled) bubbles.push(flexProfile(state.profile));
+  return { type: "flex", altText: t(state.altText).slice(0, 400), contents: { type: "carousel", contents: bubbles } };
+}
+
+/* ---------- 提示 ---------- */
+let toastTimer;
+function toast(msg) {
+  const el = $("#toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove("show"), 2600);
+}
+function setStatus(kind, html) {
+  const el = $("#status");
+  el.className = "status " + kind;
+  el.innerHTML = html;
+}
+
+/* ---------- 分享 ---------- */
+$("#share").addEventListener("click", async () => {
+  const errs = validate();
+  if (errs.length) { toast("請先修正預覽下方的紅字"); return; }
+  if (!liffReady) { toast("尚未連線 LINE"); return; }
+  if (!liff.isLoggedIn()) { liff.login(); return; }
+  if (!liff.isApiAvailable("shareTargetPicker")) {
+    toast("目前的環境不能分享，請從 LINE 裡開啟");
+    return;
+  }
+  try {
+    const res = await liff.shareTargetPicker([buildMessage()], { isMultiple: true });
+    toast(res ? "已送出 ✓" : "已取消，沒有送出");
+  } catch (e) {
+    setStatus("err", "分享失敗：" + esc(e.message || e.code || e) + "<br>常見原因：圖片網址打不開、不是 JPG／PNG，或連結格式不對。");
+  }
+});
+
+$("#copyJson").addEventListener("click", async () => {
+  const json = JSON.stringify(buildMessage().contents, null, 2);
+  try {
+    await navigator.clipboard.writeText(json);
+    toast("已複製，可貼到 Flex Message Simulator 測試");
+  } catch (e) {
+    toast("這個瀏覽器不允許自動複製");
+  }
+});
+
+/* ---------- 啟動 ---------- */
+renderCards();
+
+if (typeof window.liff === "undefined") {
+  setStatus("warn", `目前是預覽模式，LINE 功能沒有載入，可以先編輯與預覽卡片。<br>正式使用請把網頁放上網後，用手機 LINE 開啟：${LIFF_URL}`);
+} else liff.init({ liffId: LIFF_ID, withLoginOnExternalBrowser: true })
+  .then(() => {
+    liffReady = true;
+    canShare = liff.isApiAvailable("shareTargetPicker");
+    let who = "";
+    try { const tok = liff.getDecodedIDToken(); if (tok && tok.name) who = `（${esc(tok.name)}）`; } catch (e) {}
+    if (canShare) {
+      setStatus("ok", `已連線 LINE${who}，可以分享。`);
+    } else {
+      setStatus("warn", `已連線 LINE${who}，但目前無法使用分享功能。請確認 LINE Developers 的 LIFF 分頁已啟用 shareTargetPicker，或改用手機 LINE 開啟：<br>${LIFF_URL}`);
+    }
+    renderPreview();
+  })
+  .catch(e => {
+    setStatus("err", `無法連線 LINE：${esc(e.message || e.code || e)}<br>仍可編輯與預覽。要分享請用手機 LINE 開啟：${LIFF_URL}`);
+  });
+</script>
+</body>
+</html>
