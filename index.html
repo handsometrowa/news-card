@@ -51,11 +51,15 @@ textarea.short{min-height:64px}
 .b-sum{font-size:13px;color:#555;margin:0;display:-webkit-box;-webkit-line-clamp:8;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-wrap}
 .b-foot{padding:0 14px 14px}
 .b-btn{display:block;text-align:center;color:#fff;border-radius:8px;padding:9px;font-size:14px;font-weight:700}
-.b-profile{background:#f7f3ee}
-.b-kicker{font-size:12px;color:#8a8076;margin:0}
-.b-name{font-size:22px;font-weight:700;margin:8px 0 2px}
-.b-role{font-size:13px;color:#6b5b53;margin:0}
-.b-note{font-size:13px;color:#555;margin:14px 0 0;white-space:pre-wrap}
+.p-center{text-align:center}
+.bubble img.p-avatar{width:84px;height:84px;aspect-ratio:auto;border-radius:50%;object-fit:cover;border:2px solid;display:block;margin:4px auto 10px;background:#eee}
+.b-name{font-size:21px;font-weight:700;margin:4px 0 2px}
+.b-role{font-size:13px;color:#666;margin:0}
+.b-note{font-size:13px;color:#333;margin:12px 0 0;white-space:pre-wrap}
+.p-btns{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.p-btn{display:block;border:1.5px solid;border-radius:999px;padding:8px;font-size:14px;font-weight:700}
+.btn-row{display:grid;grid-template-columns:1fr;gap:6px;margin-bottom:10px}
+@media (min-width:640px){.btn-row{grid-template-columns:1fr 1.4fr}}
 .errors{color:var(--danger);font-size:14px;margin:10px 0 0;padding-left:20px}
 .bar{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(244,241,236,.96);border-top:1px solid var(--line);display:flex;gap:8px;backdrop-filter:blur(6px)}
 .primary{flex:1;padding:14px;border:0;border-radius:12px;background:var(--accent);color:#fff;font:inherit;font-weight:700;font-size:17px;cursor:pointer}
@@ -93,16 +97,18 @@ textarea.short{min-height:64px}
   <div class="panel">
     <label class="toggle"><input type="checkbox" id="pEnabled"> 在最後附上一張我的名片</label>
     <div id="pFields">
+      <label for="pAvatar">頭像或 Logo 圖片網址（選填，正方形 JPG／PNG 最好看）</label>
+      <input type="url" id="pAvatar" placeholder="https://handsometrowa.github.io/news-card/me.jpg">
       <label for="pName">姓名</label>
       <input type="text" id="pName" maxlength="20">
       <label for="pTitle">職稱（選填）</label>
       <input type="text" id="pTitle" maxlength="40">
-      <label for="pNote">一句話（選填）</label>
-      <textarea id="pNote" class="short" maxlength="120"></textarea>
-      <label for="pBtn">按鈕文字（選填）</label>
-      <input type="text" id="pBtn" maxlength="20">
-      <label for="pUrl">按鈕連結（選填，可填 https 網址或 tel:0912345678）</label>
-      <input type="url" id="pUrl" placeholder="https://line.me/ti/p/~你的LINE ID">
+      <label for="pNote">簡介（選填，可以換行，每行開頭可加表情符號）</label>
+      <textarea id="pNote" maxlength="200"></textarea>
+      <label>主題色</label>
+      <div class="swatches" id="pColors"></div>
+      <label>按鈕（最多 3 顆；沒填連結的按鈕不會出現。電話直接填號碼即可）</label>
+      <div id="pBtns"></div>
     </div>
   </div>
 </section>
@@ -148,10 +154,29 @@ const defaults = {
     summary: "在這裡用自己的話寫 2～3 句重點摘要，並把原始報導的網址填在下方「原文連結」。",
     image: "", link: "", button: "看完整報導", color: COLORS[0]
   }],
-  profile: { enabled: false, name: "楊方寧", title: "", note: "有任何保障或理財問題，歡迎直接回覆我。", btn: "加我 LINE 聊聊", url: "" }
+  profile: {
+    enabled: false, avatar: "", name: "楊方寧", title: "",
+    note: "有任何保障或理財問題，歡迎直接回覆我。", color: COLORS[1],
+    buttons: [{ text: "💬 加我 LINE 聊聊", url: "" }, { text: "📞 打電話給我", url: "" }, { text: "", url: "" }]
+  }
 };
 let state = load() || JSON.parse(JSON.stringify(defaults));
-if (!state.profile) state.profile = { ...defaults.profile };
+if (!state.profile) state.profile = JSON.parse(JSON.stringify(defaults.profile));
+(function migrateProfile(P) {
+  if (!Array.isArray(P.buttons)) {
+    P.buttons = [{ text: P.btn || "💬 加我 LINE 聊聊", url: P.url || "" }, { text: "📞 打電話給我", url: "" }, { text: "", url: "" }];
+    delete P.btn; delete P.url;
+  }
+  while (P.buttons.length < 3) P.buttons.push({ text: "", url: "" });
+  P.buttons.length = 3;
+  if (!P.color) P.color = COLORS[1];
+  if (typeof P.avatar !== "string") P.avatar = "";
+})(state.profile);
+const normLink = u => {
+  const s = t(u);
+  if (/^[0-9+\-\s()]{6,}$/.test(s)) return "tel:" + s.replace(/[^0-9+]/g, "");
+  return s;
+};
 if (!Array.isArray(state.cards) || !state.cards.length) state.cards = [blankCard()];
 
 let liffReady = false;
@@ -229,7 +254,28 @@ const altEl = $("#altText");
 altEl.value = state.altText || "";
 altEl.addEventListener("input", () => { state.altText = altEl.value; save(); renderPreview(); });
 
-const pMap = { pName: "name", pTitle: "title", pNote: "note", pBtn: "btn", pUrl: "url" };
+const pMap = { pAvatar: "avatar", pName: "name", pTitle: "title", pNote: "note" };
+function renderProfileColors() {
+  $("#pColors").innerHTML = COLORS.map(col =>
+    `<button type="button" class="swatch ${state.profile.color === col ? "sel" : ""}" style="background:${col}" data-pcolor="${col}" aria-label="顏色 ${col}"></button>`).join("");
+}
+renderProfileColors();
+$("#pColors").addEventListener("click", e => {
+  const b = e.target.closest("[data-pcolor]");
+  if (!b) return;
+  state.profile.color = b.dataset.pcolor;
+  save(); renderProfileColors(); renderPreview();
+});
+const BTN_TEXT_HINT = ["💬 加我 LINE 聊聊", "📞 打電話給我", "📅 預約保單健檢"];
+const BTN_URL_HINT = ["https://line.me/ti/p/…", "0934287406（直接填號碼）", "https://…"];
+$("#pBtns").innerHTML = state.profile.buttons.map((b, i) =>
+  `<div class="btn-row"><input type="text" data-b="text" data-i="${i}" maxlength="20" value="${esc(b.text)}" placeholder="按鈕 ${i + 1} 文字，例：${BTN_TEXT_HINT[i]}" aria-label="按鈕 ${i + 1} 文字"><input type="url" data-b="url" data-i="${i}" value="${esc(b.url)}" placeholder="按鈕 ${i + 1} 連結，例：${BTN_URL_HINT[i]}" aria-label="按鈕 ${i + 1} 連結"></div>`).join("");
+$("#pBtns").addEventListener("input", e => {
+  const k = e.target.dataset.b;
+  if (!k) return;
+  state.profile.buttons[+e.target.dataset.i][k] = e.target.value;
+  save(); renderPreview();
+});
 for (const [id, k] of Object.entries(pMap)) {
   const el = $("#" + id);
   el.value = state.profile[k] || "";
@@ -253,14 +299,20 @@ function validate() {
     const n = `第 ${i + 1} 張`;
     if (!t(c.title)) errs.push(`${n}：標題不能空白`);
     if (t(c.image) && !isHttps(c.image)) errs.push(`${n}：圖片網址要以 https:// 開頭`);
+    else if (/\.webp(\?|#|$)/i.test(t(c.image))) errs.push(`${n}：圖片是 WebP 格式，LINE 只支援 JPG／PNG，請換一張圖`);
     if (t(c.link) && !isHttps(c.link)) errs.push(`${n}：原文連結要以 https:// 開頭`);
     if (t(c.link) && !t(c.button)) errs.push(`${n}：有連結時，按鈕文字不能空白`);
   });
   const p = state.profile;
   if (p.enabled) {
     if (!t(p.name)) errs.push("名片卡：姓名不能空白");
-    if (t(p.url) && !isContact(p.url)) errs.push("名片卡：按鈕連結要以 https:// 或 tel: 開頭");
-    if (t(p.url) && !t(p.btn)) errs.push("名片卡：有連結時，按鈕文字不能空白");
+    if (t(p.avatar) && !isHttps(p.avatar)) errs.push("名片卡：頭像網址要以 https:// 開頭");
+    else if (/\.webp(\?|#|$)/i.test(t(p.avatar))) errs.push("名片卡：頭像是 WebP 格式，LINE 只支援 JPG／PNG");
+    p.buttons.forEach((b, i) => {
+      const u = normLink(b.url);
+      if (u && !isContact(u)) errs.push(`名片卡按鈕 ${i + 1}：連結要以 https:// 開頭，或直接填電話號碼`);
+      if (u && !t(b.text)) errs.push(`名片卡按鈕 ${i + 1}：有連結時，按鈕文字不能空白`);
+    });
   }
   return errs;
 }
@@ -273,13 +325,17 @@ function previewCard(c) {
   return `<div class="bubble">${img}<div class="b-body"><p class="b-title" style="color:${c.color}">${esc(t(c.title)) || "（尚未填標題）"}</p>${sum}</div>${foot}</div>`;
 }
 function previewProfile(p) {
-  const foot = t(p.url) ? `<div class="b-foot"><span class="b-btn" style="background:#6B5B53">${esc(t(p.btn))}</span></div>` : "";
-  return `<div class="bubble b-profile"><div class="b-body">
-      <p class="b-kicker">為您整理今日重點</p>
-      <p class="b-name">${esc(t(p.name)) || "（姓名）"}</p>
+  const c = p.color || COLORS[1];
+  const av = isHttps(p.avatar) ? `<img class="p-avatar" src="${esc(t(p.avatar))}" alt="" style="border-color:${c}" onerror="this.style.opacity='.25'">` : "";
+  const btns = p.buttons.filter(b => normLink(b.url) && t(b.text))
+    .map(b => `<span class="p-btn" style="border-color:${c};color:${c}">${esc(t(b.text))}</span>`).join("");
+  return `<div class="bubble"><div class="b-body p-center">
+      ${av}
+      <p class="b-name" style="color:${c}">${esc(t(p.name)) || "（姓名）"}</p>
       ${t(p.title) ? `<p class="b-role">${esc(t(p.title))}</p>` : ""}
       ${t(p.note) ? `<p class="b-note">${esc(t(p.note))}</p>` : ""}
-    </div>${foot}</div>`;
+      ${btns ? `<div class="p-btns">${btns}</div>` : ""}
+    </div></div>`;
 }
 function renderPreview() {
   let html = state.cards.map(previewCard).join("");
@@ -309,20 +365,27 @@ function flexCard(c) {
   return b;
 }
 function flexProfile(p) {
-  const contents = [
-    { type: "text", text: "為您整理今日重點", size: "xs", color: "#8A8076" },
-    { type: "text", text: t(p.name), weight: "bold", size: "xxl", margin: "md", color: "#22201D" }
-  ];
-  if (t(p.title)) contents.push({ type: "text", text: t(p.title), size: "sm", color: "#6B5B53", wrap: true });
-  if (t(p.note)) contents.push({ type: "text", text: t(p.note), size: "sm", color: "#555555", wrap: true, margin: "lg" });
-  const b = { type: "bubble", size: "mega",
-    body: { type: "box", layout: "vertical", backgroundColor: "#F7F3EE", paddingAll: "20px", contents } };
-  if (t(p.url)) {
-    b.footer = { type: "box", layout: "vertical", backgroundColor: "#F7F3EE", contents: [
-      { type: "button", style: "primary", color: "#6B5B53", height: "sm", action: { type: "uri", label: t(p.btn), uri: t(p.url) } }
-    ] };
+  const c = p.color || COLORS[1];
+  const hasAv = !!t(p.avatar);
+  const contents = [];
+  if (hasAv) {
+    contents.push({ type: "box", layout: "horizontal", justifyContent: "center", contents: [
+      { type: "box", layout: "vertical", flex: 0, width: "88px", height: "88px", cornerRadius: "44px",
+        borderWidth: "2px", borderColor: c, contents: [
+          { type: "image", url: t(p.avatar), size: "full", aspectMode: "cover", aspectRatio: "1:1" }
+        ] }
+    ] });
   }
-  return b;
+  contents.push({ type: "text", text: t(p.name), weight: "bold", size: "xl", color: c, align: "center", wrap: true, margin: hasAv ? "lg" : "none" });
+  if (t(p.title)) contents.push({ type: "text", text: t(p.title), size: "sm", color: "#666666", align: "center", wrap: true, margin: "sm" });
+  if (t(p.note)) contents.push({ type: "text", text: t(p.note), size: "sm", color: "#333333", align: "center", wrap: true, margin: "lg" });
+  const btns = p.buttons.filter(b => normLink(b.url) && t(b.text)).map(b => ({
+    type: "box", layout: "vertical", borderWidth: "1px", borderColor: c, cornerRadius: "20px", paddingAll: "10px",
+    action: { type: "uri", label: t(b.text).slice(0, 20), uri: normLink(b.url) },
+    contents: [{ type: "text", text: t(b.text), size: "sm", weight: "bold", color: c, align: "center", wrap: true }]
+  }));
+  if (btns.length) contents.push({ type: "box", layout: "vertical", spacing: "md", margin: "xl", contents: btns });
+  return { type: "bubble", size: "mega", body: { type: "box", layout: "vertical", paddingAll: "20px", contents } };
 }
 function buildMessage() {
   const bubbles = state.cards.map(flexCard);
