@@ -67,6 +67,8 @@ textarea.short{min-height:64px}
 .secondary{padding:14px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;font:inherit;font-size:14px;cursor:pointer;color:var(--ink)}
 .toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:#22201d;color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90%;text-align:center}
 .toast.show{opacity:1}
+.issue{margin:0 16px 8px;padding:10px 14px;border-radius:12px;background:#e8f5e9;color:#1b5e20;font-size:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.issue .secondary{padding:6px 10px;font-size:13px}
 </style>
 </head>
 <body>
@@ -76,6 +78,7 @@ textarea.short{min-height:64px}
   <p>新聞卡片產生器：編好卡片，一鍵分享給 LINE 好友與群組</p>
 </header>
 <div id="status" class="status">正在連線 LINE…</div>
+<div id="issue" class="issue" hidden><span id="issueText"></span> <button type="button" class="secondary" id="reloadIssue">還原成本週版本</button></div>
 
 <section>
   <h2>通知文字</h2>
@@ -435,6 +438,37 @@ $("#copyJson").addEventListener("click", async () => {
     toast("這個瀏覽器不允許自動複製");
   }
 });
+
+/* ---------- 載入本週快報（latest.json） ---------- */
+function showIssue(iss) {
+  $("#issueText").textContent = `已載入含金快報 ${iss.label || iss.id}：確認預覽後，按「分享到 LINE」即可。`;
+  $("#issue").hidden = false;
+}
+$("#reloadIssue").addEventListener("click", () => {
+  state.loadedIssue = null; save(); location.reload();
+});
+(async function loadIssue() {
+  let iss;
+  try {
+    const r = await fetch("latest.json", { cache: "no-store" });
+    if (!r.ok) return;
+    iss = await r.json();
+  } catch (e) { return; }
+  if (!iss || !iss.id || !Array.isArray(iss.cards) || !iss.cards.length) return;
+  if (state.loadedIssue === iss.id) { showIssue(iss); return; }
+  state.altText = iss.altText || state.altText;
+  state.cards = iss.cards.slice(0, MAX_CARDS).map(c => Object.assign(blankCard(c.color), c));
+  if (iss.profile && !state.profile.buttons.some(b => t(b.url))) {
+    const P = Object.assign({}, state.profile, iss.profile);
+    P.buttons = (iss.profile.buttons || P.buttons).slice(0, 3);
+    while (P.buttons.length < 3) P.buttons.push({ text: "", url: "" });
+    state.profile = P;
+  }
+  state.loadedIssue = iss.id;
+  save();
+  if (load()?.loadedIssue === iss.id) { location.reload(); return; }
+  altEl.value = state.altText; renderCards(); showIssue(iss);
+})();
 
 /* ---------- 啟動 ---------- */
 renderCards();

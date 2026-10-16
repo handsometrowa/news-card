@@ -1,0 +1,15 @@
+{
+  "id": "20261016",
+  "label": "2026/10/16",
+  "altText": "本週3件事：長輩打疫苗賺健康幣、失業扶助金10/19截止、台股大跌怎麼看",
+  "cards": [
+    {"title": "太平長輩注意！打公費疫苗還能賺健康幣", "summary": "左手流感右手新冠，打完還領幣", "image": "https://handsometrowa.github.io/news-card/20261016-vaccine.png", "link": "https://www.cdc.gov.tw/Bulletin/Detail/4v-EU-rH3UbhFvRs0tjTqQ?typeId=9", "button": "看疾管署公告", "color": "#2E6B4F"},
+    {"title": "10/19截止！失業家長子女每學期最高領3.12萬", "summary": "剩3天，別讓學費補助睡過頭", "image": "https://handsometrowa.github.io/news-card/20261016-tuition.png", "link": "https://www.mol.gov.tw/1607/1632/1633/98953/", "button": "看勞動部說明", "color": "#B07A1F"},
+    {"title": "台股一天跌1656點！起點是美國通膨", "summary": "美國物價一漲，台股先打噴嚏", "image": "https://handsometrowa.github.io/news-card/20261016-stock.png", "link": "https://news.cnyes.com/news/id/6631352", "button": "看完整報導", "color": "#1F5A96"}
+  ],
+  "profile": {
+    "enabled": true, "name": "楊方寧", "title": "業務主任｜台中太平在地服務",
+    "note": "有任何保障或理財問題，歡迎直接回覆我。", "color": "#1F5A96",
+    "buttons": [{"text": "💬 加我 LINE 聊聊", "url": "https://line.me/ti/p/UddXwubvAr"}]
+  }
+}
