@@ -1,15 +1,41 @@
 {
-  "id": "20261016",
-  "label": "2026/10/16",
-  "altText": "本週3件事：長輩打疫苗賺健康幣、失業扶助金10/19截止、台股大跌怎麼看",
+  "id": "20261017",
+  "label": "2026/10/17",
+  "altText": "本週3件事：台中敬老金現金10/19前領、明年最低月薪30,900、台股週跌2202點ETF兩樣情",
   "cards": [
-    {"title": "太平長輩注意！打公費疫苗還能賺健康幣", "summary": "左手流感右手新冠，打完還領幣", "image": "https://handsometrowa.github.io/news-card/20261016-vaccine.png", "link": "https://www.cdc.gov.tw/Bulletin/Detail/4v-EU-rH3UbhFvRs0tjTqQ?typeId=9", "button": "看疾管署公告", "color": "#2E6B4F"},
-    {"title": "10/19截止！失業家長子女每學期最高領3.12萬", "summary": "剩3天，別讓學費補助睡過頭", "image": "https://handsometrowa.github.io/news-card/20261016-tuition.png", "link": "https://www.mol.gov.tw/1607/1632/1633/98953/", "button": "看勞動部說明", "color": "#B07A1F"},
-    {"title": "台股一天跌1656點！起點是美國通膨", "summary": "美國物價一漲，台股先打噴嚏", "image": "https://handsometrowa.github.io/news-card/20261016-stock.png", "link": "https://news.cnyes.com/news/id/6631352", "button": "看完整報導", "color": "#1F5A96"}
+    {
+      "title": "太平長輩注意！重陽敬老金現金10/19前要領",
+      "summary": "剩2天！敬老紅包別放過期",
+      "image": "https://handsometrowa.github.io/news-card/20261017-elderly-gift.png",
+      "link": "https://www.society.taichung.gov.tw/13710/13735/13774/13783/2905980",
+      "button": "看社會局說明",
+      "color": "#2E6B4F"
+    },
+    {
+      "title": "明年起最低月薪30,900元！時薪漲到205元",
+      "summary": "明年起月薪底線多1400",
+      "image": "https://handsometrowa.github.io/news-card/20261017-min-wage.png",
+      "link": "https://www.mol.gov.tw/1607/1632/1633/99195/",
+      "button": "看勞動部說明",
+      "color": "#B07A1F"
+    },
+    {
+      "title": "台股一週跌2202點！石油ETF反漲7.7%",
+      "summary": "台股感冒，油價發燒",
+      "image": "https://handsometrowa.github.io/news-card/20261017-etf-week.png",
+      "link": "https://www.cna.com.tw/news/afe/202610160280.aspx",
+      "button": "看中央社報導",
+      "color": "#1F5A96"
+    }
   ],
   "profile": {
-    "enabled": true, "name": "楊方寧", "title": "業務主任｜台中太平在地服務",
-    "note": "有任何保障或理財問題，歡迎直接回覆我。", "color": "#1F5A96",
-    "buttons": [{"text": "💬 加我 LINE 聊聊", "url": "https://line.me/ti/p/UddXwubvAr"}]
+    "enabled": true,
+    "name": "楊方寧",
+    "title": "業務主任｜台中太平在地服務",
+    "note": "有任何保障或理財問題，歡迎直接回覆我。",
+    "color": "#1F5A96",
+    "buttons": [
+      { "text": "💬 加我 LINE 聊聊", "url": "https://line.me/ti/p/UddXwubvAr" }
+    ]
   }
 }
