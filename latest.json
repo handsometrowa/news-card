@@ -1,30 +1,30 @@
 {
-  "id": "20261017",
-  "label": "2026/10/17",
-  "altText": "本週3件事：台中敬老金現金10/19前領、明年最低月薪30,900、台股週跌2202點ETF兩樣情",
+  "id": "20261026",
+  "label": "2026/10/26",
+  "altText": "本週3件事：颱風後高麗菜一天漲123%、冷氣冰箱換新最高省5000年底截止、國際油價破100美元",
   "cards": [
     {
-      "title": "太平長輩注意！重陽敬老金現金10/19前要領",
-      "summary": "剩2天！敬老紅包別放過期",
-      "image": "https://handsometrowa.github.io/news-card/20261017-elderly-gift.png",
-      "link": "https://www.society.taichung.gov.tw/13710/13735/13774/13783/2905980",
-      "button": "看社會局說明",
+      "title": "颱風後高麗菜一天漲123%！農糧署：27日起回穩",
+      "summary": "菜價跳一下，先別急著囤",
+      "image": "https://handsometrowa.github.io/news-card/20261026-veg-price.png",
+      "link": "https://udn.com/news/story/7266/9836310",
+      "button": "看菜價新聞",
       "color": "#2E6B4F"
     },
     {
-      "title": "明年起最低月薪30,900元！時薪漲到205元",
-      "summary": "明年起月薪底線多1400",
-      "image": "https://handsometrowa.github.io/news-card/20261017-min-wage.png",
-      "link": "https://www.mol.gov.tw/1607/1632/1633/99195/",
-      "button": "看勞動部說明",
+      "title": "換冷氣冰箱最高省5000！補助年底截止剩不到2成",
+      "summary": "剩66天，舊冷氣該退休了",
+      "image": "https://handsometrowa.github.io/news-card/20261026-appliance-subsidy.png",
+      "link": "https://save3000.moeaea.gov.tw/applyweb/outweb/",
+      "button": "看補助申請",
       "color": "#B07A1F"
     },
     {
-      "title": "台股一週跌2202點！石油ETF反漲7.7%",
-      "summary": "台股感冒，油價發燒",
-      "image": "https://handsometrowa.github.io/news-card/20261017-etf-week.png",
-      "link": "https://www.cna.com.tw/news/afe/202610160280.aspx",
-      "button": "看中央社報導",
+      "title": "油價破100美元！台灣每公升汽油被吸收11.2元",
+      "summary": "加油沒漲價，成本有人扛",
+      "image": "https://handsometrowa.github.io/news-card/20261026-oil-100.png",
+      "link": "https://money.udn.com/money/story/5612/9835223",
+      "button": "看油價新聞",
       "color": "#1F5A96"
     }
   ],
@@ -35,7 +35,10 @@
     "note": "有任何保障或理財問題，歡迎直接回覆我。",
     "color": "#1F5A96",
     "buttons": [
-      { "text": "💬 加我 LINE 聊聊", "url": "https://line.me/ti/p/UddXwubvAr" }
+      {
+        "text": "💬 加我 LINE 聊聊",
+        "url": "https://line.me/ti/p/UddXwubvAr"
+      }
     ]
   }
 }
