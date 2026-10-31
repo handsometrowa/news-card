@@ -1,30 +1,30 @@
 {
-  "id": "20261026",
-  "label": "2026/10/26",
-  "altText": "本週3件事：颱風後高麗菜一天漲123%、冷氣冰箱換新最高省5000年底截止、國際油價破100美元",
+  "id": "20261031",
+  "label": "2026/10/31",
+  "altText": "本週3件事：住長照機構每人年補18萬12/16截止、地價稅11/30前要繳、外資10月賣台股創單月紀錄",
   "cards": [
     {
-      "title": "颱風後高麗菜一天漲123%！農糧署：27日起回穩",
-      "summary": "菜價跳一下，先別急著囤",
-      "image": "https://handsometrowa.github.io/news-card/20261026-veg-price.png",
-      "link": "https://udn.com/news/story/7266/9836310",
-      "button": "看菜價新聞",
+      "title": "住長照機構每人年補18萬！台中12/16截止",
+      "summary": "剩46天，住宿費能補一筆",
+      "image": "https://handsometrowa.github.io/news-card/20261031-ltc-subsidy.png",
+      "link": "https://www.health.taichung.gov.tw/26198/26201/26204/3367524",
+      "button": "看申請方式",
       "color": "#2E6B4F"
     },
     {
-      "title": "換冷氣冰箱最高省5000！補助年底截止剩不到2成",
-      "summary": "剩66天，舊冷氣該退休了",
-      "image": "https://handsometrowa.github.io/news-card/20261026-appliance-subsidy.png",
-      "link": "https://save3000.moeaea.gov.tw/applyweb/outweb/",
-      "button": "看補助申請",
+      "title": "地價稅11/1開徵！逾期每3天加1%滯納金",
+      "summary": "剩30天，稅單別壓箱底",
+      "image": "https://handsometrowa.github.io/news-card/20261031-land-tax.png",
+      "link": "https://www.tax.taichung.gov.tw/4499/5084/5176/60551/normalPost",
+      "button": "看地稅局說明",
       "color": "#B07A1F"
     },
     {
-      "title": "油價破100美元！台灣每公升汽油被吸收11.2元",
-      "summary": "加油沒漲價，成本有人扛",
-      "image": "https://handsometrowa.github.io/news-card/20261026-oil-100.png",
-      "link": "https://money.udn.com/money/story/5612/9835223",
-      "button": "看油價新聞",
+      "title": "外資10月賣台股9943億！創史上單月最大",
+      "summary": "外資在提款，別跟著慌",
+      "image": "https://handsometrowa.github.io/news-card/20261031-foreign-record.png",
+      "link": "https://www.businesstoday.com.tw/article/category/183008/post/202610300041/",
+      "button": "看盤勢新聞",
       "color": "#1F5A96"
     }
   ],
