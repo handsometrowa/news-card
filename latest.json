@@ -1,29 +1,29 @@
 {
-  "id": "20261031",
-  "label": "2026/10/31",
-  "altText": "本週3件事：住長照機構每人年補18萬12/16截止、地價稅11/30前要繳、外資10月賣台股創單月紀錄",
+  "id": "20261107",
+  "label": "2026/11/07",
+  "altText": "本週3件事：敬老卡計程車每趟補100元、國旅平日住宿最高折2000元、台股一週跌5510點創史上最大",
   "cards": [
     {
-      "title": "住長照機構每人年補18萬！台中12/16截止",
-      "summary": "剩46天，住宿費能補一筆",
-      "image": "https://handsometrowa.github.io/news-card/20261031-ltc-subsidy.png",
-      "link": "https://www.health.taichung.gov.tw/26198/26201/26204/3367524",
-      "button": "看申請方式",
+      "title": "台中長輩搭計程車！敬老卡每趟補100元",
+      "summary": "多補15元，出門看病更省",
+      "image": "https://handsometrowa.github.io/news-card/20261107-senior-taxi.png",
+      "link": "https://www.ctee.com.tw/news/20260723701613-431401",
+      "button": "看補助說明",
       "color": "#2E6B4F"
     },
     {
-      "title": "地價稅11/1開徵！逾期每3天加1%滯納金",
-      "summary": "剩30天，稅單別壓箱底",
-      "image": "https://handsometrowa.github.io/news-card/20261031-land-tax.png",
-      "link": "https://www.tax.taichung.gov.tw/4499/5084/5176/60551/normalPost",
-      "button": "看地稅局說明",
+      "title": "國旅平日住一晚折800！11/30前別錯過",
+      "summary": "剩23天，平日出遊最划算",
+      "image": "https://handsometrowa.github.io/news-card/20261107-travel-subsidy.png",
+      "link": "https://taiwantravel.tad.gov.tw/web_page/index.jsp",
+      "button": "去登錄補助",
       "color": "#B07A1F"
     },
     {
-      "title": "外資10月賣台股9943億！創史上單月最大",
-      "summary": "外資在提款，別跟著慌",
-      "image": "https://handsometrowa.github.io/news-card/20261031-foreign-record.png",
-      "link": "https://www.businesstoday.com.tw/article/category/183008/post/202610300041/",
+      "title": "台股一週跌5510點！史上最大單週跌點",
+      "summary": "股市大雨，先撐好傘",
+      "image": "https://handsometrowa.github.io/news-card/20261107-twse-week.png",
+      "link": "https://ec.ltn.com.tw/article/breakingnews/5632109",
       "button": "看盤勢新聞",
       "color": "#1F5A96"
     }
