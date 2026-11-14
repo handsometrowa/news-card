@@ -1,30 +1,30 @@
 {
-  "id": "20261107",
-  "label": "2026/11/07",
-  "altText": "本週3件事：敬老卡計程車每趟補100元、國旅平日住宿最高折2000元、台股一週跌5510點創史上最大",
+  "id": "20261114",
+  "label": "2026/11/14",
+  "altText": "本週3件事：65歲以上也能保就業保險、育兒留停放寬到孩子9歲、台股一週大漲3973點創24年最大",
   "cards": [
     {
-      "title": "台中長輩搭計程車！敬老卡每趟補100元",
-      "summary": "多補15元，出門看病更省",
-      "image": "https://handsometrowa.github.io/news-card/20261107-senior-taxi.png",
-      "link": "https://www.ctee.com.tw/news/20260723701613-431401",
-      "button": "看補助說明",
+      "title": "65歲還在工作，也能保就業保險了",
+      "summary": "銀髮上班族多一層保障",
+      "image": "https://handsometrowa.github.io/news-card/20261114-employment-insurance.png",
+      "link": "https://udn.com/news/story/7238/9877306",
+      "button": "看修法重點",
       "color": "#2E6B4F"
     },
     {
-      "title": "國旅平日住一晚折800！11/30前別錯過",
-      "summary": "剩23天，平日出遊最划算",
-      "image": "https://handsometrowa.github.io/news-card/20261107-travel-subsidy.png",
-      "link": "https://taiwantravel.tad.gov.tw/web_page/index.jsp",
-      "button": "去登錄補助",
+      "title": "育嬰留停放寬到孩子9歲！陪產假變14天",
+      "summary": "爸媽請假，彈性變大了",
+      "image": "https://handsometrowa.github.io/news-card/20261114-parental-leave.png",
+      "link": "https://www.cna.com.tw/news/aipl/202611130192.aspx",
+      "button": "看三讀重點",
       "color": "#B07A1F"
     },
     {
-      "title": "台股一週跌5510點！史上最大單週跌點",
-      "summary": "股市大雨，先撐好傘",
-      "image": "https://handsometrowa.github.io/news-card/20261107-twse-week.png",
-      "link": "https://ec.ltn.com.tw/article/breakingnews/5632109",
-      "button": "看盤勢新聞",
+      "title": "台股一週狂漲3973點！24年來最大漲幅",
+      "summary": "上週大雨，這週出太陽",
+      "image": "https://handsometrowa.github.io/news-card/20261114-twse-rebound.png",
+      "link": "https://news.cts.com.tw/cna/money/202611/202611133100877.html",
+      "button": "看本週盤勢",
       "color": "#1F5A96"
     }
   ],
