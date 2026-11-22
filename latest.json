@@ -1,29 +1,29 @@
 {
-  "id": "20261114",
-  "label": "2026/11/14",
-  "altText": "本週3件事：65歲以上也能保就業保險、育兒留停放寬到孩子9歲、台股一週大漲3973點創24年最大",
+  "id": "20261121",
+  "label": "2026/11/21",
+  "altText": "本週3件事：12/1起長照人員改刷卡登入、明年勞保費率漲到13%、台股一週重挫7641點",
   "cards": [
     {
-      "title": "65歲還在工作，也能保就業保險了",
-      "summary": "銀髮上班族多一層保障",
-      "image": "https://handsometrowa.github.io/news-card/20261114-employment-insurance.png",
-      "link": "https://udn.com/news/story/7238/9877306",
-      "button": "看修法重點",
+      "title": "家裡有用長照？12/1起長照人員改刷卡登入",
+      "summary": "剩9天，家屬免緊張",
+      "image": "https://handsometrowa.github.io/news-card/20261121-ltc-login.png",
+      "link": "https://udn.com/news/story/7266/9871144",
+      "button": "看新制說明",
       "color": "#2E6B4F"
     },
     {
-      "title": "育嬰留停放寬到孩子9歲！陪產假變14天",
-      "summary": "爸媽請假，彈性變大了",
-      "image": "https://handsometrowa.github.io/news-card/20261114-parental-leave.png",
-      "link": "https://www.cna.com.tw/news/aipl/202611130192.aspx",
-      "button": "看三讀重點",
+      "title": "明年勞保費率漲到13%！306萬人投保薪資自動調",
+      "summary": "薪水單小變動，先看懂",
+      "image": "https://handsometrowa.github.io/news-card/20261121-labor-insurance.png",
+      "link": "https://www.cna.com.tw/news/ahel/202611180190.aspx",
+      "button": "看勞保新制",
       "color": "#B07A1F"
     },
     {
-      "title": "台股一週狂漲3973點！24年來最大漲幅",
-      "summary": "上週大雨，這週出太陽",
-      "image": "https://handsometrowa.github.io/news-card/20261114-twse-rebound.png",
-      "link": "https://news.cts.com.tw/cna/money/202611/202611133100877.html",
+      "title": "台股一週重挫7641點！單週跌幅17.5%",
+      "summary": "跌得兇，更要守紀律",
+      "image": "https://handsometrowa.github.io/news-card/20261121-twse-plunge.png",
+      "link": "https://www.cna.com.tw/news/afe/202611200139.aspx",
       "button": "看本週盤勢",
       "color": "#1F5A96"
     }
